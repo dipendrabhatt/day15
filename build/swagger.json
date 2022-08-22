@@ -1,0 +1,299 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"UserPhoto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"filename": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"filename",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Students": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"studentName": {
+						"type": "string"
+					},
+					"rollNo": {
+						"type": "number",
+						"format": "double"
+					},
+					"subjects": {
+						"$ref": "#/components/schemas/Subjects"
+					}
+				},
+				"required": [
+					"id",
+					"studentName",
+					"rollNo",
+					"subjects"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Subjects": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"subName": {
+						"type": "string"
+					},
+					"credit": {
+						"type": "number",
+						"format": "double"
+					},
+					"students": {
+						"$ref": "#/components/schemas/Students"
+					}
+				},
+				"required": [
+					"id",
+					"subName",
+					"credit",
+					"students"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"student": {
+				"properties": {
+					"studentName": {
+						"type": "string"
+					},
+					"roll_no": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"studentName",
+					"roll_no"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "day15",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/photo": {
+			"post": {
+				"operationId": "PhotoAdd",
+				"responses": {
+					"201": {
+						"description": "Added",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserPhoto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"photo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"description": {
+										"type": "string"
+									},
+									"image": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"description",
+									"image"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/student": {
+			"post": {
+				"operationId": "StudentAdd",
+				"responses": {
+					"201": {
+						"description": "Added",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"datas": {
+													"$ref": "#/components/schemas/Students"
+												},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"datas",
+												"message",
+												"success"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"datas": {},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message",
+												"success"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"photo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/student"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/subject": {
+			"post": {
+				"operationId": "SubjectAdd",
+				"responses": {
+					"201": {
+						"description": "Added",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"datas": {
+													"$ref": "#/components/schemas/Subjects"
+												},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"datas",
+												"message",
+												"success"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"datas": {},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message",
+												"success"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"photo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Subjects"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:5000"
+		}
+	]
+}
