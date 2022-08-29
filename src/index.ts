@@ -7,6 +7,7 @@ import photoRoutes from "./routes/photoRoutes"
 import DataSource from "./database/config";
 import swaggerUI from 'swagger-ui-express';
 import swaggerui from "../build/swagger.json"
+import fileUpload from "express-fileupload";
 
 
 // import swaggerui from "../build/"
@@ -17,9 +18,9 @@ import { RegisterRoutes } from "../build/routes";
 
 
 const app:Application = express();
-
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
+
 
 app.use('/api/user', userRoute)
 app.use('/api/student', studentRoutes)
@@ -31,6 +32,10 @@ app.use(
    swaggerUI.serve,
     swaggerUI.setup(swaggerui)
   );
+  
+  app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  }));
 
 
 app.listen(process.env.PORT, async () => {
